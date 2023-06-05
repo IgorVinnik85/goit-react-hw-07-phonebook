@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import StaticContact from '../components/ContactsPhonebook/StaticContact';
+
+const tasksInitialState = {
+  contacts: [],
+  isLoading: false,
+  error: null,
+};
 
 export const filterSlice = createSlice({
   name: 'filter',
@@ -13,20 +18,25 @@ export const filterSlice = createSlice({
 
 export const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: { items: StaticContact },
+  initialState: tasksInitialState,
   reducers: {
-    addContacts(state, action) {
-      state.items.push(action.payload);
+    fetchingInProgress(state) {
+      state.isLoading = true;
     },
-    deleteContacts(state, action) {
-      state.items = state.items.filter(
-        contact => contact.id !== action.payload
-      );
+    fetchingSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.contacts = action.payload;
+    },
+    fetchingError(state, action) {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });
 
 export const { fillterContacts } = filterSlice.actions;
-export const { addContacts, deleteContacts } = contactsSlice.actions;
+export const { fetchingInProgress, fetchingSuccess, fetchingError } =
+  contactsSlice.actions;
 export const filterToolKit = filterSlice.reducer;
 export const contactsToolKit = contactsSlice.reducer;
