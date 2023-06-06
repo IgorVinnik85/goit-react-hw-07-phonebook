@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchContacts, deleteContacts } from './operations';
 
 const tasksInitialState = {
   contacts: [],
@@ -19,24 +20,30 @@ export const filterSlice = createSlice({
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: tasksInitialState,
-  reducers: {
-    fetchingInProgress(state) {
+  extraReducers: {
+    [fetchContacts.pending]: state => {
       state.isLoading = true;
     },
-    fetchingSuccess(state, action) {
+    [fetchContacts.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.error = null;
       state.contacts = action.payload;
     },
-    fetchingError(state, action) {
+    [fetchContacts.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
+    },
+    [deleteContacts.fulfilled]: (state, action) => {
+      const idToDelete = action.payload;
+      state.contacts = state.contacts.filter(
+        contact => contact.id !== idToDelete
+      );
     },
   },
 });
 
-export const { fillterContacts } = filterSlice.actions;
-export const { fetchingInProgress, fetchingSuccess, fetchingError } =
-  contactsSlice.actions;
+// export const { fillterContacts } = filterSlice.actions;
+// export const { fetchingInProgress, fetchingSuccess, fetchingError } =
+//   contactsSlice.actions;
 export const filterToolKit = filterSlice.reducer;
 export const contactsToolKit = contactsSlice.reducer;

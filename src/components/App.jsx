@@ -11,7 +11,7 @@ export const App = () => {
   const dispatch = useDispatch();
   const { contacts, isLoading, error } = useSelector(state => state.contacts);
   const filter = useSelector(state => state.filter);
-  console.log(contacts.data);
+  // console.log(contacts);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -32,19 +32,17 @@ export const App = () => {
   //   );
   // };
 
-  // const findName = event => {
-  //   dispatch(fillterContacts(event.target.value));
-  // };
+  const findName = event => {
+    // dispatch(fillterContacts(event.target.value));
+    console.log(event.target.value);
+  };
 
   // const filteredName = () => {
-  //   return contacts.filter(el =>
+  //   return contacts.data.filter(el =>
   //     el.name.toLowerCase().includes(filter.toLowerCase())
   //   );
   // };
 
-  // const deleteContact = contactId => {
-  //   dispatch(deleteContacts(contactId));
-  // };
 
   // const filteredArray = filteredName();
 
@@ -58,11 +56,10 @@ export const App = () => {
       }}
     >
       <h1>Phonebook</h1>
-      {/* <FormPhonebook onSubmit={formSubmitHandler} />
-      <FindContacts onInput={findName} /> */}
+      {/* /* <FormPhonebook onSubmit={formSubmitHandler} /> */}
+      <FindContacts onInput={findName} />
       <h2>Contacts</h2>
-      {/* <p>{contacts.data.join()}</p> */}
-      {/* <ContactsPhonebook data={contacts.data}/> */}
+      {contacts && <ContactsPhonebook  />}
     </div>
   );
 };
