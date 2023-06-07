@@ -4,10 +4,13 @@ import { FormPhonebook } from './FormPhonebook/FormPhonebook';
 import { ContactsPhonebook } from './ContactsPhonebook/ContactsPhonebook';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchContacts } from '../redux/operations';
+import { getContacts, getError, getIsLoading } from 'redux/selectors';
 
 export const App = () => {
   const dispatch = useDispatch();
-  const { contacts, isLoading, error } = useSelector(state => state.contacts);
+  const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
 
   useEffect(() => {
     dispatch(fetchContacts());

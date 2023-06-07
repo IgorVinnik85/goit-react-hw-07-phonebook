@@ -2,11 +2,12 @@
 import css from './ContactsPhonebook.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContacts } from 'redux/operations';
+import { getContacts, getFilter } from 'redux/selectors';
 
 export const ContactsPhonebook = () => {
   const dispatch = useDispatch();
-  const { contacts } = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
   const filteredContacts = contacts.filter(contact => {
     return contact.name.toLowerCase().includes(filter.toLowerCase());
   });

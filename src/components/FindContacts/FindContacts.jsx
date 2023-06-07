@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { getFilter } from 'redux/selectors';
 import { fillterContacts } from 'redux/slice';
-
 
 export const FindContacts = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.filter);
- 
+  const filter = useSelector(getFilter);
+
   const onInput = event => {
     console.log(event.target.value);
     dispatch(fillterContacts(event.target.value));
