@@ -6,7 +6,10 @@ import { deleteContacts } from 'redux/operations';
 export const ContactsPhonebook = () => {
   const dispatch = useDispatch();
   const { contacts } = useSelector(state => state.contacts);
-  console.log(contacts);
+  const filter = useSelector(state => state.filter);
+  const filteredContacts = contacts.filter(contact => {
+    return contact.name.toLowerCase().includes(filter.toLowerCase());
+  });
 
   const handleDelete = id => {
     dispatch(deleteContacts(id));
@@ -14,7 +17,7 @@ export const ContactsPhonebook = () => {
 
   return (
     <ul className={css.list}>
-      {contacts.map(el => {
+      {filteredContacts.map(el => {
         return (
           <li className={css.item} key={el.id}>
             <span> {el.name}</span>

@@ -1,9 +1,13 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { useState } from 'react';
 import css from './FormPhonebook.module.css';
 import { nanoid } from 'nanoid';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContacts } from 'redux/operations';
 
-export const FormPhonebook = ({ onSubmit }) => {
+export const FormPhonebook = () => {
+  const { contacts } = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -11,29 +15,32 @@ export const FormPhonebook = ({ onSubmit }) => {
   let numberInputId = nanoid();
 
   const handleInputChange = event => {
-    // console.log(event.currentTarget.value);
-    // const { name, value } = event.currentTarget;
-    // this.setState({ [name]: value });
-    if (event.currentTarget.name === 'name') {
-      setName(event.currentTarget.value);
-    }
-    if (event.currentTarget.name === 'number') {
-      setNumber(event.currentTarget.value);
-    }
+    const { name, value } = event.currentTarget;
+    if (name === 'name') setName(value);
+    if (name === 'number') setNumber(value);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
+    const { name, number } = event.target.elements;
+    if (contacts.find(element => element.name === name.value)) {
+      alert(`${name.value} is alredy in contacts`);
+      return;
+    }
+    dispatch(
+      addContacts({
+        name: name.value,
+        number: number.value,
+        id: nanoid(),
+      })
+    );
 
-    //  onSubmit(this.state);
-    onSubmit({ name, number });
     reset();
   };
 
   const reset = () => {
     setName('');
     setNumber('');
-    // this.setState({ name: '', number: '' });
   };
 
   return (
@@ -70,8 +77,4 @@ export const FormPhonebook = ({ onSubmit }) => {
       </button>
     </form>
   );
-};
-
-FormPhonebook.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
