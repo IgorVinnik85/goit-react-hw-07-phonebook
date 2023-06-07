@@ -33,14 +33,30 @@ export const contactsSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+    [addContacts.pending]: state => {
+      state.isLoading = true;
+    },
     [addContacts.fulfilled]: (state, action) => {
       state.contacts.push(action.payload);
+      state.isLoading = false;
+    },
+    [addContacts.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    [deleteContacts.pending]: state => {
+      state.isLoading = true;
     },
     [deleteContacts.fulfilled]: (state, action) => {
       const idToDelete = action.payload.id;
       state.contacts = state.contacts.filter(
         contact => contact.id !== idToDelete
       );
+      state.isLoading = false;
+    },
+    [deleteContacts.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
   },
 });

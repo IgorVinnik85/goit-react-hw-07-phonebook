@@ -5,11 +5,9 @@ import { ContactsPhonebook } from './ContactsPhonebook/ContactsPhonebook';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchContacts } from '../redux/operations';
 
-
 export const App = () => {
   const dispatch = useDispatch();
   const { contacts, isLoading, error } = useSelector(state => state.contacts);
-  // console.log(contacts);
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -25,10 +23,12 @@ export const App = () => {
       }}
     >
       <h1>Phonebook</h1>
-      <FormPhonebook  />
+      <FormPhonebook />
       <FindContacts />
       <h2>Contacts</h2>
-      {contacts && <ContactsPhonebook  />}
+      {isLoading && <h2>Request in progress...</h2>}
+      {error && <h2>Something go's wrong!</h2>}
+      {contacts && <ContactsPhonebook />}
     </div>
   );
 };
